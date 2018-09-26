@@ -40,6 +40,8 @@ async function main() {
 		database: config.get('masterDatabase')
 	});
 	
+	await dbMysql.execute('DROP TABLE IF EXISTS doidata');
+	
 	await dbMysql.execute(`
 	 CREATE TABLE IF NOT EXISTS doidata (
 	   title_hash BIGINT,
@@ -49,8 +51,6 @@ async function main() {
 		 author2_hash BIGINT,
 		 doi VARCHAR(1024)
 	 )`);
-	
-	// await dbMysql.execute('DROP TABLE doidata');
 	
 	let stmt = await dbSqlite.prepare('SELECT CAST(title_hash AS TEXT) title_hash, author1_len, author1_hash,author2_len, author2_hash, doi FROM doidata');
 	let row;
